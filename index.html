@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ankeret – støtte for pårørende</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+–sand: #F5F0E8;
+–warm-white: #FDFAF5;
+–sage: #7A9E8E;
+–sage-dark: #5C8070;
+–terracotta: #C47C5A;
+–terracotta-light: #E8A07A;
+–charcoal: #2C2C2C;
+–soft-brown: #8B7355;
+–muted: #7A7060;
+–cream-border: #E0D8CC;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+font-family: ‘DM Sans’, sans-serif;
+background: var(–warm-white);
+color: var(–charcoal);
+overflow-x: hidden;
+}
+
+/* ── BRAND ── */
+.brand-name {
+font-family: ‘Lora’, serif;
+font-size: 1.4rem;
+font-weight: 600;
+color: var(–charcoal);
+letter-spacing: 0.04em;
+margin-bottom: 32px;
+opacity: 0;
+animation: fadeUp 0.7s ease 0s forwards;
+}
+
+/* ── HERO ── */
+.hero {
+min-height: 100vh;
+background: linear-gradient(160deg, #EDE7DC 0%, #F5EDE3 40%, #EAF0EB 100%);
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+text-align: center;
+padding: 80px 24px 60px;
+position: relative;
+overflow: hidden;
+}
+
+.hero::before {
+content: ‘’;
+position: absolute;
+top: -120px; right: -120px;
+width: 500px; height: 500px;
+background: radial-gradient(circle, rgba(196,124,90,0.12) 0%, transparent 70%);
+border-radius: 50%;
+}
+.hero::after {
+content: ‘’;
+position: absolute;
+bottom: -80px; left: -80px;
+width: 400px; height: 400px;
+background: radial-gradient(circle, rgba(122,158,142,0.15) 0%, transparent 70%);
+border-radius: 50%;
+}
+
+.hero-tag {
+display: inline-block;
+background: rgba(122,158,142,0.18);
+color: var(–sage-dark);
+font-size: 0.78rem;
+font-weight: 500;
+letter-spacing: 0.12em;
+text-transform: uppercase;
+padding: 6px 16px;
+border-radius: 20px;
+margin-bottom: 28px;
+opacity: 0;
+animation: fadeUp 0.7s ease 0.1s forwards;
+}
+
+.hero h1 {
+font-family: ‘Lora’, serif;
+font-size: clamp(2.4rem, 6vw, 4rem);
+line-height: 1.2;
+color: var(–charcoal);
+max-width: 700px;
+margin-bottom: 24px;
+opacity: 0;
+animation: fadeUp 0.8s ease 0.25s forwards;
+}
+
+.hero h1 em {
+font-style: italic;
+color: var(–terracotta);
+}
+
+.hero-sub {
+font-size: clamp(1rem, 2.5vw, 1.2rem);
+color: var(–muted);
+max-width: 540px;
+line-height: 1.75;
+font-weight: 300;
+margin-bottom: 44px;
+opacity: 0;
+animation: fadeUp 0.8s ease 0.4s forwards;
+}
+
+.cta-btn {
+display: inline-block;
+background: var(–terracotta);
+color: #fff;
+font-family: ‘DM Sans’, sans-serif;
+font-size: 1.05rem;
+font-weight: 500;
+padding: 18px 40px;
+border-radius: 50px;
+text-decoration: none;
+letter-spacing: 0.02em;
+transition: background 0.25s, transform 0.2s, box-shadow 0.25s;
+box-shadow: 0 6px 30px rgba(196,124,90,0.3);
+opacity: 0;
+animation: fadeUp 0.8s ease 0.55s forwards;
+}
+.cta-btn:hover {
+background: #b5693f;
+transform: translateY(-2px);
+box-shadow: 0 10px 40px rgba(196,124,90,0.4);
+}
+
+.hero-note {
+margin-top: 18px;
+font-size: 0.85rem;
+color: var(–muted);
+opacity: 0;
+animation: fadeUp 0.8s ease 0.7s forwards;
+}
+
+/* ── WAVE ── */
+.wave {
+display: block;
+width: 100%;
+margin-bottom: -2px;
+}
+
+/* ── FEELINGS STRIP ── */
+.feelings {
+background: var(–sand);
+padding: 52px 24px;
+text-align: center;
+}
+.feelings-intro {
+font-family: ‘Lora’, serif;
+font-size: clamp(1.4rem, 3.5vw, 2rem);
+color: var(–charcoal);
+margin-bottom: 10px;
+}
+.feelings-intro em { font-style: italic; color: var(–sage-dark); }
+.feelings-sub {
+color: var(–muted);
+font-size: 0.95rem;
+margin-bottom: 36px;
+}
+.feelings-grid {
+display: flex;
+flex-wrap: wrap;
+gap: 12px;
+justify-content: center;
+max-width: 700px;
+margin: 0 auto;
+}
+.feeling-pill {
+background: var(–warm-white);
+border: 1.5px solid var(–cream-border);
+color: var(–soft-brown);
+padding: 10px 20px;
+border-radius: 30px;
+font-size: 0.9rem;
+font-weight: 400;
+transition: border-color 0.2s, color 0.2s;
+}
+.feeling-pill:hover { border-color: var(–terracotta); color: var(–terracotta); }
+
+/* ── SECTION BASE ── */
+section { padding: 80px 24px; }
+.container { max-width: 900px; margin: 0 auto; }
+.section-label {
+font-size: 0.75rem;
+font-weight: 500;
+letter-spacing: 0.14em;
+text-transform: uppercase;
+color: var(–sage-dark);
+margin-bottom: 12px;
+}
+.section-title {
+font-family: ‘Lora’, serif;
+font-size: clamp(1.6rem, 4vw, 2.5rem);
+line-height: 1.25;
+color: var(–charcoal);
+margin-bottom: 20px;
+}
+.section-title em { font-style: italic; color: var(–terracotta); }
+.section-body {
+color: var(–muted);
+font-size: 1rem;
+line-height: 1.8;
+max-width: 620px;
+}
+
+/* ── FOR HVEM ── */
+.for-hvem { background: var(–warm-white); }
+.for-hvem .cards {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+gap: 20px;
+margin-top: 44px;
+}
+.for-card {
+background: var(–sand);
+border-radius: 16px;
+padding: 28px 24px;
+border: 1px solid var(–cream-border);
+transition: transform 0.2s, box-shadow 0.2s;
+}
+.for-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.07); }
+.for-card .icon { font-size: 1.8rem; margin-bottom: 14px; }
+.for-card h3 { font-family: ‘Lora’, serif; font-size: 1.1rem; margin-bottom: 8px; color: var(–charcoal); }
+.for-card p { font-size: 0.88rem; color: var(–muted); line-height: 1.6; }
+
+/* ── HOW IT WORKS ── */
+.how { background: linear-gradient(160deg, #EAF0EB 0%, #F0EBE3 100%); }
+.steps { margin-top: 48px; display: flex; flex-direction: column; gap: 0; }
+.step {
+display: flex;
+gap: 28px;
+align-items: flex-start;
+position: relative;
+padding-bottom: 40px;
+}
+.step:last-child { padding-bottom: 0; }
+.step-line {
+position: absolute;
+left: 22px;
+top: 48px;
+bottom: 0;
+width: 2px;
+background: var(–cream-border);
+}
+.step:last-child .step-line { display: none; }
+.step-num {
+flex-shrink: 0;
+width: 46px; height: 46px;
+border-radius: 50%;
+background: var(–warm-white);
+border: 2px solid var(–cream-border);
+display: flex; align-items: center; justify-content: center;
+font-family: ‘Lora’, serif;
+font-size: 1.1rem;
+color: var(–terracotta);
+font-weight: 600;
+position: relative;
+z-index: 1;
+}
+.step-content h3 { font-family: ‘Lora’, serif; font-size: 1.15rem; margin-bottom: 6px; color: var(–charcoal); }
+.step-content p { font-size: 0.92rem; color: var(–muted); line-height: 1.7; }
+.step-badge {
+display: inline-block;
+background: rgba(122,158,142,0.15);
+color: var(–sage-dark);
+font-size: 0.75rem;
+font-weight: 500;
+padding: 3px 10px;
+border-radius: 10px;
+margin-top: 6px;
+}
+
+/* ── QUOTE / TESTIMONIAL ── */
+.quote-section {
+background: var(–charcoal);
+padding: 80px 24px;
+text-align: center;
+}
+blockquote {
+font-family: ‘Lora’, serif;
+font-size: clamp(1.3rem, 3.5vw, 2rem);
+font-style: italic;
+color: var(–sand);
+max-width: 700px;
+margin: 0 auto 24px;
+line-height: 1.5;
+}
+blockquote span { color: var(–terracotta-light); }
+.quote-author { font-size: 0.85rem; color: rgba(245,240,232,0.55); letter-spacing: 0.08em; }
+
+/* ── CTA SECTION ── */
+.cta-section {
+background: var(–warm-white);
+text-align: center;
+padding: 100px 24px;
+}
+.cta-box {
+background: linear-gradient(135deg, #EDE7DC 0%, #E8F0EB 100%);
+border-radius: 28px;
+padding: 64px 40px;
+max-width: 680px;
+margin: 0 auto;
+border: 1px solid var(–cream-border);
+}
+.cta-box h2 {
+font-family: ‘Lora’, serif;
+font-size: clamp(1.7rem, 4vw, 2.4rem);
+margin-bottom: 16px;
+color: var(–charcoal);
+}
+.cta-box h2 em { font-style: italic; color: var(–terracotta); }
+.cta-box p {
+color: var(–muted);
+font-size: 1rem;
+line-height: 1.75;
+margin-bottom: 36px;
+}
+.cta-box .cta-btn { animation: none; opacity: 1; }
+.cta-free {
+margin-top: 16px;
+font-size: 0.82rem;
+color: var(–soft-brown);
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 6px;
+}
+.cta-free::before { content: ‘✓’; color: var(–sage-dark); font-weight: 700; }
+
+/* ── FOOTER ── */
+footer {
+background: var(–sand);
+text-align: center;
+padding: 28px 24px;
+border-top: 1px solid var(–cream-border);
+font-size: 0.8rem;
+color: var(–muted);
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+from { opacity: 0; transform: translateY(22px); }
+to   { opacity: 1; transform: translateY(0); }
+}
+
+.reveal {
+opacity: 0;
+transform: translateY(28px);
+transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible { opacity: 1; transform: none; }
+
+@media (max-width: 600px) {
+.cta-box { padding: 44px 24px; }
+}
+</style>
+
+</head>
+<body>
+
+<!-- HERO -->
+
+<section class="hero">
+  <div class="brand-name">⚓ Ankeret</div>
+  <span class="hero-tag">Støtte for pårørende</span>
+  <h1>Du trenger ikke stå<br>i dette <em>alene.</em></h1>
+  <p class="hero-sub">
+    Å se en du er glad i slite med rus er en av de tyngste tingene man kan bære på. 
+    Det er lov å være lei seg, sint, utslitt – og håpefull. Alt på en gang.
+  </p>
+  <a href="https://calendly.com/yvonne-vonmoisy/30min" target="_blank" class="cta-btn">Book en gratis samtale HER →</a>
+  <p class="hero-note">Første samtale er gratis · Ingen forpliktelser</p>
+</section>
+
+<svg class="wave" viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+  <path d="M0,40 C360,80 1080,0 1440,40 L1440,60 L0,60 Z" fill="#F5F0E8"/>
+</svg>
+
+<!-- FEELINGS STRIP -->
+
+<div class="feelings">
+  <p class="feelings-intro">Her er det lov å kjenne på <em>alt.</em></p>
+  <p class="feelings-sub">Du trenger ikke ha det samlet. Kom som du er.</p>
+  <div class="feelings-grid">
+    <span class="feeling-pill">Bekymring</span>
+    <span class="feeling-pill">Skyld</span>
+    <span class="feeling-pill">Sinne</span>
+    <span class="feeling-pill">Sorg</span>
+    <span class="feeling-pill">Håpløshet</span>
+    <span class="feeling-pill">Kjærlighet</span>
+    <span class="feeling-pill">Skam</span>
+    <span class="feeling-pill">Håp</span>
+    <span class="feeling-pill">Utmattelse</span>
+    <span class="feeling-pill">Ensomhet</span>
+    <span class="feeling-pill">Forvirring</span>
+    <span class="feeling-pill">Mot</span>
+  </div>
+</div>
+
+<!-- FOR HVEM -->
+
+<section class="for-hvem reveal">
+  <div class="container">
+    <p class="section-label">For deg som</p>
+    <h2 class="section-title">Er du pårørende?<br>Da er dette <em>for deg.</em></h2>
+    <p class="section-body">Enten du er forelder, partner, søsken, venn eller annen nær familie – rusavhengighet rammer hele nettverket rundt personen. Din smerte er like gyldig, og du fortjener støtte.</p>
+    <div class="cards">
+      <div class="for-card reveal">
+        <div class="icon">👪</div>
+        <h3>Foreldre & søsken</h3>
+        <p>Til deg som har sett barnet ditt eller søskenet ditt forandre seg, og ikke vet hva du skal gjøre.</p>
+      </div>
+      <div class="for-card reveal">
+        <div class="icon">💑</div>
+        <h3>Partner & ektefelle</h3>
+        <p>Til deg som lever tett på rusavhengigheten – og kanskje begynner å tvile på deg selv.</p>
+      </div>
+      <div class="for-card reveal">
+        <div class="icon">🤝</div>
+        <h3>Venner & nær familie</h3>
+        <p>Til deg som bryr deg dypt, men ikke vet hvor grensene dine skal gå.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+
+<section class="how reveal">
+  <div class="container">
+    <p class="section-label">Slik fungerer det</p>
+    <h2 class="section-title">En trygg vei<br><em>fremover</em></h2>
+    <p class="section-body">Du bestemmer tempoet. Vi starter forsiktig og bygger videre derfra.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-line"></div>
+        <div class="step-content">
+          <h3>Gratis innledende samtale</h3>
+          <p>Vi snakkes i 15–30 minutter. Du deler det du vil, og vi finner ut sammen hva du trenger mest hjelp til akkurat nå.</p>
+          <span class="step-badge">100 % gratis · Ingen forpliktelse</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-line"></div>
+        <div class="step-content">
+          <h3>Ukentlige samtaler & hjemmeoppgaver</h3>
+          <p>Om kjemien stemmer starter vi et forløp. Én samtaletime per uke, med enkle oppgaver mellom samtalene som gir deg nye verktøy og innsikt.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-line"></div>
+        <div class="step-content">
+          <h3>Akutt støtte når du trenger det</h3>
+          <p>Livet med pårørenderolle er uforutsigbart. Du har tilgang til akutt bistand mellom timene når det virkelig butter imot.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-line"></div>
+        <div class="step-content">
+          <h3>To eller tre måneders pakke</h3>
+          <p>Vi jobber sammen over tid, fordi ekte endring tar tid. Med mulighet for forlengelse når du er klar for det.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+
+<div class="quote-section">
+  <blockquote>
+    "Det å bry seg om noen som ruser seg<br>
+    er ikke svakhet. Det er <span>en av de modigste tingene</span> et menneske kan gjøre."
+  </blockquote>
+  <p class="quote-author">– Et grunnleggende prinsipp i vår tilnærming</p>
+</div>
+
+<!-- CTA SECTION -->
+
+<section class="cta-section" id="book">
+  <div class="cta-box reveal">
+    <h2>Ta det <em>første steget</em><br>– du er klar nok.</h2>
+    <p>
+      Du trenger ikke ha alle svarene. Du trenger ikke vite nøyaktig hva du vil ha hjelp til.
+      Det eneste du trenger å gjøre er å ta kontakt – så tar vi det derfra, sammen.
+    </p>
+    <a href="https://calendly.com/yvonne-vonmoisy/30min" target="_blank" class="cta-btn">Book en gratis samtale HER →</a>
+    <p class="cta-free">Første samtale er alltid gratis</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+
+<footer>
+  <p>© 2026 Ankeret · Alle følelser er velkomne her · Konfidensielt og trygt</p>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
